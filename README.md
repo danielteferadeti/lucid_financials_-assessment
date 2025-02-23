@@ -34,8 +34,3 @@ uvicorn app.main:app --reload
 Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) to test endpoints interactively.
 
 ---
-
-### 🎯 **Ready for Deployment?**  
-You can deploy this API on **AWS EC2** or any cloud platform! 🚀  
-Need help? Let me know! 😊
-EOL
