@@ -1,4 +1,3 @@
-# lucid_financials_-assessmentcat <<EOL > README.md
 # FastAPI CRUD API with Authentication  
 
 This is a simple **CRUD API** for **posting content**, built using **FastAPI**.  
