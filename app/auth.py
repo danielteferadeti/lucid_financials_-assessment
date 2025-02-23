@@ -1,22 +1,39 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
 import os
+import jwt
+import bcrypt
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
 
-DATABASE_URL = "mysql+aiomysql://your_username:your_password@your_mysql_host/your_database"
+# Load .env
+load_dotenv()
 
-# Create Async Engine
-engine = create_async_engine(DATABASE_URL, echo=True)
+# Secret key for JWT
+SECRET_KEY = os.getenv("SECRET_KEY", "mydefaultsecret")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-# Create Session
-AsyncSessionLocal = sessionmaker(
-    bind=engine, class_=AsyncSession, expire_on_commit=False
-)
+# This function hash's the password using bcrypt
+def hash_password(password: str) -> str:
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
-# Base class for models
-Base = declarative_base()
+# Verify password
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
-# Dependency for FastAPI Routes
-async def get_db():
-    async with AsyncSessionLocal() as session:
-        yield session
+# Generate JWT token
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+# Decode JWT token
+def decode_access_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None

@@ -2,3 +2,5 @@ DB_USER=username
 DB_PASSWORD=password
 DB_HOST=mysql_host
 DB_NAME=database
+
+SECRET_KEY=your_secret_key
