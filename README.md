@@ -11,21 +11,6 @@ It includes **user authentication (JWT)**, database management with **SQLAlchemy
 - **Caching:** Implements in-memory caching (5 minutes) for fetching posts  
 - **Security:** Passwords are securely hashed using bcrypt  
 
-## 📂 Folder Structure  
-\`\`\`
-app/
-│── models/        # SQLAlchemy database models
-│── schemas/       # Pydantic validation schemas
-│── services/      # Business logic (Authentication, Posts)
-│── routes/        # API route handlers
-│── dependencies/  # Dependency injections (Auth, DB)
-│── database.py    # Database connection setup
-│── auth.py        # JWT Authentication
-│── main.py        # FastAPI entry point
-│── .env           # Environment variables
-│── requirements.txt # Project dependencies
-\`\`\`
-
 ## 🛠️ Setup & Run  
 
 ### 1️⃣ Install Dependencies  
