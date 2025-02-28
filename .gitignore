@@ -30,6 +30,7 @@ ENV/
 env/
 .venv/
 .env/
+.env
 
 # FastAPI specific
 *.log
